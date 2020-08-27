@@ -1,0 +1,115 @@
+<div class="container-xl">
+	<div class="table-responsive">
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h2>CLIENTES</h2>
+					</div>
+					<div class="col-sm-6">
+						<a class="btn btn-success" (click)="openSave(clienteModalSave)"><i class="material-icons">&#xE147;</i> <span>Crear nuevo cliente</span></a>
+					</div>
+				</div>
+			</div>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Nombre</th>
+						<th>Apellido</th>
+						<th>Cuenta</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+          <tr *ngFor = "let cliente of clientes">
+
+            <td>{{ cliente.idCliente }}</td>
+						<td>{{ cliente.nombre }}</td>
+						<td>{{ cliente.apellido }}</td>
+						<td>{{ cliente.cuenta }}</td>
+						<td>
+							<a class="edit" (click)="open(cliente, clienteModalUpdate)"><i class="material-icons" title="Edit">&#xE254;</i></a>
+							<a class="delete" (click)="delete(cliente)"><i class="material-icons" title="Delete">&#xE872;</i></a>
+						</td>
+         </tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<ng-template #clienteModalSave>
+  <div id="editEmployeeModal">
+  	<div class="modal-dialog">
+  		<div class="modal-content">
+        <form [formGroup]="clienteForm" novalidate (ngSubmit) = "create()">
+  				<div class="modal-header">
+  					<h4 class="modal-title">Crear cliente</h4>
+  					<button type="button" class="close" data-dismiss="modal" (click)="cerrar()" aria-hidden="true">&times;</button>
+  				</div>
+  				<div class="modal-body">
+  					<div class="form-group">
+  						<label>Id</label>
+  						<input type="number"class="form-control" formControlName="idCliente" value="">
+  					</div>
+  					<div class="form-group">
+  						<label>Nombre</label>
+  						<input type="text"class="form-control" formControlName="nombre" value="">
+  					</div>
+  					<div class="form-group">
+  						<label>Apellido</label>
+  						<input type="text" class="form-control" formControlName="apellido" value="">
+  					</div>
+  					<div class="form-group">
+  						<label>Cuenta</label>
+  						<input type="text" class="form-control" formControlName="cuenta" value="">
+  					</div>
+  				</div>
+  				<div class="modal-footer">
+  					<button type="button" class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
+            <button class="btn btn-success">Crear</button>
+  				</div>
+  			</form>
+  		</div>
+  	</div>
+  </div>
+</ng-template>
+
+
+<ng-template #clienteModalUpdate>
+  <div id="editEmployeeModal">
+  	<div class="modal-dialog">
+  		<div class="modal-content">
+        <form [formGroup]="clienteUpdateForm" (ngSubmit) = "update()">
+  				<div class="modal-header">
+  					<h4 class="modal-title">Editar cliente</h4>
+  					<button type="button" class="close" data-dismiss="modal" (click)="cerrar()" aria-hidden="true">&times;</button>
+  				</div>
+  				<div class="modal-body">
+  					<div class="form-group">
+  						<label>Id</label>
+  						<input type="number"class="form-control" formControlName="idClienteUpdate">
+  					</div>
+  					<div class="form-group">
+  						<label>Nombre</label>
+  						<input type="text"class="form-control" formControlName="nombreUpdate">
+  					</div>
+  					<div class="form-group">
+  						<label>Apellido</label>
+  						<input type="text" class="form-control" formControlName="apellidoUpdate">
+  					</div>
+  					<div class="form-group">
+  						<label>Cuenta</label>
+  						<input type="text" class="form-control" formControlName="cuentaUpdate">
+  					</div>
+  				</div>
+  				<div class="modal-footer">
+  					<button type="button" class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
+            <button class="btn btn-success">Actualizar</button>
+  				</div>
+  			</form>
+  		</div>
+  	</div>
+  </div>
+</ng-template>
