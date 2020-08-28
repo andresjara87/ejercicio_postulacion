@@ -18,6 +18,8 @@
 						<th>Nombre</th>
 						<th>Apellido</th>
 						<th>Cuenta</th>
+						<th>Numero cuenta</th>
+						<th>Banco</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>
@@ -28,6 +30,8 @@
 						<td>{{ cliente.nombre }}</td>
 						<td>{{ cliente.apellido }}</td>
 						<td>{{ cliente.cuenta }}</td>
+						<td>{{ cliente.numeroCuenta.numeroCuenta}}</td>
+						<td>{{ cliente.numeroCuenta.banco.nombreBanco}}</td>
 						<td>
 							<a class="edit" (click)="open(cliente, clienteModalUpdate)"><i class="material-icons" title="Edit">&#xE254;</i></a>
 							<a class="delete" (click)="delete(cliente)"><i class="material-icons" title="Delete">&#xE872;</i></a>
@@ -64,6 +68,10 @@
   					<div class="form-group">
   						<label>Cuenta</label>
   						<input type="text" class="form-control" formControlName="cuenta" value="">
+  					</div>
+						<div class="form-group">
+  						<label>Numero Cuenta</label>
+  						<input type="text" class="form-control" formControlName="numeroCuenta" value="">
   					</div>
   				</div>
   				<div class="modal-footer">
@@ -102,6 +110,11 @@
   					<div class="form-group">
   						<label>Cuenta</label>
   						<input type="text" class="form-control" formControlName="cuentaUpdate">
+  					</div>
+
+						<div class="form-group">
+  						<label>Numero Cuenta</label>
+  						<input type="text" class="form-control" formControlName="numeroCuentaUpdate">
   					</div>
   				</div>
   				<div class="modal-footer">

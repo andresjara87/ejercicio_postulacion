@@ -1,7 +1,10 @@
 import { Component, OnInit, Input  } from '@angular/core';
 import { FormGroup, FormBuilder,Validators, ReactiveFormsModule  } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
+import { Cuenta } from '../../models/cuenta';
+import { Banco } from '../../models/banco';
 import { ClienteService } from '../../services/cliente.service';
+import { CuentaService } from '../../services/cuenta.service';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -25,9 +28,12 @@ export class ClienteComponent implements OnInit {
   clienteUpdate:Cliente=new Cliente();
   cliente:Cliente=new Cliente();
   closeResult: string;
+  cuenta:Cuenta=new Cuenta();
+  banco:Banco=new Banco();
   modal : NgbModalRef;
 
   constructor(private clienteService:ClienteService,
+  private cuentaService:CuentaService,
   private formBuilder:FormBuilder,
   private router:Router,
   private activatedRoute:ActivatedRoute,
@@ -43,6 +49,7 @@ export class ClienteComponent implements OnInit {
     this.clienteService.getClientes().subscribe(
       (clientes)=> {
         this.clientes = clientes
+        console.log(this.clientes);
       }
     )
   }
@@ -53,14 +60,16 @@ export class ClienteComponent implements OnInit {
       idCliente:['',[Validators.required]],
       nombre:['',[Validators.required]],
       apellido:['',[Validators.required]],
-      cuenta:['',[Validators.required]]
+      cuenta:['',[Validators.required]],
+      numeroCuenta:['',[Validators.required]]
     });
 
     this.clienteUpdateForm = this.formBuilder.group({
       idClienteUpdate:['',[Validators.required]],
       nombreUpdate:['',[Validators.required]],
       apellidoUpdate:['',[Validators.required]],
-      cuentaUpdate:['',[Validators.required]]
+      cuentaUpdate:['',[Validators.required]],
+      numeroCuentaUpdate:['',[Validators.required]]
     });
   }
 
@@ -71,6 +80,8 @@ export class ClienteComponent implements OnInit {
     this.clienteUpdateForm.get('nombreUpdate').setValue(this.cliente.nombre);
     this.clienteUpdateForm.get('apellidoUpdate').setValue(this.cliente.apellido);
     this.clienteUpdateForm.get('cuentaUpdate').setValue(this.cliente.cuenta);
+    this.clienteUpdateForm.get('numeroCuentaUpdate').setValue(this.cliente.numeroCuenta.numeroCuenta);
+//    this.clienteUpdateForm.get('bancoUpdate').setValue(this.cliente.numeroCuenta.banco.nombreBanco);
 
     this.modal = this.modalService.open(clienteModal, { centered: true, backdropClass: 'light-blue-backdrop' })
     this.modal.result.then((e) => {
@@ -83,6 +94,8 @@ export class ClienteComponent implements OnInit {
     this.clienteForm.get('nombre').setValue('');
     this.clienteForm.get('apellido').setValue('');
     this.clienteForm.get('cuenta').setValue('');
+    this.clienteForm.get('numeroCuenta').setValue('');
+
 
     this.modal = this.modalService.open(clienteModalSave, { centered: true, backdropClass: 'light-blue-backdrop' })
     this.modal.result.then((e) => {
@@ -99,6 +112,8 @@ export class ClienteComponent implements OnInit {
 
 
 
+
+
   public create():void{
     console.log("a guardar");
     this.clienteGuardar=new Cliente();
@@ -106,6 +121,13 @@ export class ClienteComponent implements OnInit {
     this.clienteGuardar.nombre=this.clienteForm.get('nombre').value;
     this.clienteGuardar.apellido=this.clienteForm.get('apellido').value;
     this.clienteGuardar.cuenta=this.clienteForm.get('cuenta').value;
+
+    this.cuentaService.getCuenta(this.clienteForm.get('numeroCuenta').value).subscribe(
+      (cuenta)=> {
+        this.cuenta = cuenta
+      }
+    )
+    this.clienteGuardar.numeroCuenta=this.cuenta;
 
     this.clienteService.create(this.clienteGuardar).subscribe(
       response=>this.cerrar()
@@ -140,6 +162,12 @@ export class ClienteComponent implements OnInit {
     this.clienteUpdate.nombre=this.clienteUpdateForm.get('nombreUpdate').value;
     this.clienteUpdate.apellido=this.clienteUpdateForm.get('apellidoUpdate').value;
     this.clienteUpdate.cuenta=this.clienteUpdateForm.get('cuentaUpdate').value;
+    this.cuentaService.getCuenta(this.clienteUpdateForm.get('numeroCuentaUpdate').value).subscribe(
+      (cuenta)=> {
+        this.cuenta = cuenta
+      }
+    )
+    this.clienteUpdate.numeroCuenta=this.cuenta;
     this.clienteService.update(this.clienteUpdate).subscribe(
       response=>this.cerrar()
     )

@@ -6,10 +6,20 @@ import java.util.Scanner;
 public class Prueba {
 	
 	public static int existeEnArreglo(int[] arreglo, int busqueda) {
+		//10,2,-1
 		  for (int x = 0; x < arreglo.length; x++) {
-		    if (arreglo[x] == busqueda) {
-		      return x;
-		    }
+			  for (int j = 0; j < x+1; x++) {
+				//10,2,-1
+				    if (arreglo[x] < arreglo[j]) {
+				    	arreglo[x]=arreglo[x];
+				    }else {
+				    	int var=arreglo[j];
+				    	arreglo[j]=arreglo[x];
+				    	arreglo[x]=var;//2,-1,10
+				    }
+				  }
+			  
+	
 		  }
 		  return -1;
 	}
@@ -52,37 +62,33 @@ public class Prueba {
 	}
 
 	public static void main(String[] args) {
+		int[] arreglo = { 1,-100,4 };
 		
-		System.out.println("********************");
-		System.out.println("Ejercicio 1 y 2");
-		System.out.println("********************");
-		System.out.println("Escriba la opcion 1 o 2");
-		System.out.println("********************");
-		System.out.println("1) buscar el numero 51 del array [1, 3, 13, 15, 17, 19, 21, 23, 31, 34, 40, 51, 54, 68]");
-		System.out.println("2) Ordenar la lista de numeros [54,53,2,1,5,98,73,86,98,94,1,2,3,2]");
+		for (int i = 0; i < arreglo.length - 1; i++) {
+			
+            for (int j = 0; j < arreglo.length - 1; j++)
+            {
+		  	if (arreglo[j] > arreglo[j + 1]) {
+		  		
+		  		  int temp = arreglo[j + 1];
+		          arreglo[j + 1] = arreglo[j];
+		          arreglo[j] = temp;
+		  		
+		    }
 		
-	
-		 Scanner scanner = new Scanner(System.in);
-		 int select = -1;
-		 int num1 = 0, num2 = 0; //Variables
+		       /*   int temp = arreglo[j + 1];
+		          arreglo[j + 1] = arreglo[j];
+		          arreglo[j] = temp;*/
 		
+		      }
+		  }
 		
+        
 		
-		//Recoger una variable por consola
-		select = Integer.parseInt(scanner.nextLine()); 
-
-		//Ejemplo de switch case en Java
-		switch(select){
-		case 1: 
-			Buscar();
-			break;
-		case 2: 
-			Ordenar();
-			break;
-		case 3: 
-		  
-
-	}
+     for (int n:arreglo) {
+			
+			System.out.println(n);
+		}
 		
 	}
 
